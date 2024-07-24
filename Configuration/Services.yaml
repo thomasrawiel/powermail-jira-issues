@@ -3,6 +3,11 @@ services:
     autowire: true
     autoconfigure: true
     public: false
-    
+  
   TRAW\PowermailJiraIssues\:
     resource: '../Classes/*'
+
+  TRAW\PowermailJiraIssues\EventListener\PowermailSubmitEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'traw/powermail-jira-submit'
