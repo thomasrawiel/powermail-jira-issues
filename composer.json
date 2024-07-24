@@ -1,0 +1,28 @@
+{
+  "name": "traw/powermail-jira-issues",
+  "description": "Post powermail form submissions as jira issues",
+  "type": "typo3-cms-extension",
+  "keywords": [
+    "TYPO3 CMS",
+    "Powermail",
+    "Jira",
+    "Issues"
+  ],
+  "license": "GPL-3.0-or-later",
+  "autoload": {
+    "psr-4": {
+      "TRAW\\PowermailJiraIssues\\": "Classes/"
+    }
+  },
+  "require": {
+    "typo3/cms-core": "^11.5 || ^12.4",
+    "php": "^8.0",
+    "in2code/powermail": "^10.5 || ^11.0 || ^12.0",
+    "lesstif/jira-cloud-restapi": "^1.0"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "powermail_jira_issues"
+    }
+  }
+}
