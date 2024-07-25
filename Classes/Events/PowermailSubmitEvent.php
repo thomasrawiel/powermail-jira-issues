@@ -3,6 +3,7 @@
 namespace TRAW\PowermailJiraIssues\Events;
 
 use In2code\Powermail\Domain\Model\Mail;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Class PowermailSubmitEvent
@@ -11,22 +12,34 @@ use In2code\Powermail\Domain\Model\Mail;
 class PowermailSubmitEvent
 {
     /**
+     * The submitted Powermail Mail
+     *
      * @var Mail
      */
     protected Mail $mail;
     /**
+     * Powermail Settings
+     *
      * @var array
      */
     protected array $settings;
 
     /**
+     * The Uri object where the form was submitted
+     *
+     * @var UriInterface
+     */
+    protected UriInterface $uri;
+
+    /**
      * @param Mail  $mail
      * @param array $settings
      */
-    public function __construct(Mail $mail, array $settings)
+    public function __construct(Mail $mail, array $settings, UriInterface $uri)
     {
         $this->mail = $mail;
         $this->settings = $settings;
+        $this->uri = $uri;
     }
 
     /**
@@ -43,5 +56,13 @@ class PowermailSubmitEvent
     public function getSettings(): array
     {
         return $this->settings;
+    }
+
+    /**
+     * @return UriInterface
+     */
+    public function getUri(): UriInterface
+    {
+        return $this->uri;
     }
 }
