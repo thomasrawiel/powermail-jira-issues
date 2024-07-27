@@ -7,6 +7,7 @@ use In2code\Powermail\Domain\Model\Answer;
 use JiraCloud\ADF\AtlassianDocumentFormat;
 use JiraCloud\Issue\IssueField;
 use TRAW\PowermailJiraIssues\Configuration\JiraConfiguration;
+use TRAW\PowermailJiraIssues\Domain\Model\DTO\IssueConfiguration;
 use TRAW\PowermailJiraIssues\Events\PowermailSubmitEvent;
 
 /**
@@ -20,12 +21,18 @@ class IssueService
      */
     protected JiraConfiguration|null $jiraConfiguration = null;
 
+    protected UserLookupService|null $userLookupService = null;
+
+
     /**
      * @param JiraConfiguration $jiraConfiguration
      */
-    public function __construct(JiraConfiguration $jiraConfiguration)
+    public function __construct(JiraConfiguration $jiraConfiguration, UserLookupService $userLookupService)
     {
         $this->jiraConfiguration = $jiraConfiguration;
+        $this->userLookupService = $userLookupService;
+
+
     }
 
     /**
@@ -40,11 +47,9 @@ class IssueService
         $uri = $event->getUri();
         $url = $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
         $answers = $mail->getAnswers();
+        /** @var IssueConfiguration $configuration */
         $configuration = $this->jiraConfiguration->getConfigurationByKey($mail->getForm()->getJiraTarget());
 
-        if (empty($configuration)) {
-            throw new \Exception('No configuration for this board');
-        }
 
         $doc = new Document();
 
@@ -67,12 +72,22 @@ class IssueService
         $doc->paragraph()->em('- - - This issue has been automatically created - - -')->end();
         $doc->paragraph()->em('URL: ' . $url)->end();
 
-        $issueField = (new IssueField())->setProjectKey($configuration['project_key'])
-            ->setSummary($configuration['subject'] ?? $mail->getSubject())
-            ->setAssigneeToDefault()
-            ->setPriorityNameAsString($configuration['priority'] ?? 'Medium')
-            ->setIssueTypeAsString($configuration['type'] ?? 'Task')
+        $issueField = (new IssueField())->setProjectKey($configuration->getProjectKey())
+            ->setSummary($configuration->getSubject() ?? $mail->getSubject())
+            ->setPriorityNameAsString($configuration->getPriority())
+            ->setIssueTypeAsString($configuration->getType())
             ->setDescription(new AtlassianDocumentFormat($doc));
+
+        foreach ($configuration->getLabels() as $label) {
+            $issueField->addLabelAsString($label);
+        }
+
+        if (!empty($configuration->getAssignee())) {
+            $assignToUser = $this->userLookupService->lookup($configuration->getAssignee(), $configuration->getProjectKey());
+            $issueField->setAssigneeAccountId($assignToUser['accountId']);
+        } else {
+            $issueField->setAssigneeToDefault();
+        }
 
         return $issueField;
     }

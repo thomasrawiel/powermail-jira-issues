@@ -2,6 +2,7 @@
 
 namespace TRAW\PowermailJiraIssues\Configuration;
 
+use TRAW\PowermailJiraIssues\Domain\Model\DTO\IssueConfiguration;
 use TRAW\PowermailJiraIssues\Validation\Validation;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Information\Typo3Version;
@@ -68,7 +69,7 @@ class JiraConfiguration
         $configuration = $this->getIssueConfiguration();
         return !empty($configuration) ? array_map(function ($config, $key) {
             if (Validation::validateConfiguration($key, $config)) {
-                return [$config['label'], $key];
+                return [$config['tca']['label'], empty($config['tca']['value']) ? $key : $config['tca']['value']];
             }
         }, $configuration, array_keys($configuration)) : [];
     }
@@ -78,8 +79,8 @@ class JiraConfiguration
      *
      * @return array|null
      */
-    public function getConfigurationByKey(string $key): ?array
+    public function getConfigurationByKey(string $key): IssueConfiguration
     {
-        return $this->getIssueConfiguration()[$key] ?? null;
+        return new IssueConfiguration($this->getIssueConfiguration()[$key]);
     }
 }
