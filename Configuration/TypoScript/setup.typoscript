@@ -1,7 +1,0 @@
-plugin.tx_powermail.settings.setup {
-    finishers {
-        98 {
-            class = TRAW\PowermailJiraIssues\Finisher\SubmitFormFinisher
-        }
-    }
-}
