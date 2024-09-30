@@ -1,6 +1,6 @@
 {
 	"name": "traw/powermail-jira-issues",
-	"description": "Post powermail form submissions as jira issues",
+	"description": "JiraCloud extension - Post powermail form submissions as jira issues",
 	"type": "typo3-cms-extension",
 	"keywords": [
 		"TYPO3 CMS",

@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Powermail JIRA Issues',
-    'description' => 'Post powermail form submissions as jira issues',
+    'description' => 'JiraCloud extension - Post powermail form submissions as jira issues',
     'category' => 'misc',
     'author' => 'Thomas Rawiel',
     'author_email' => 'thomas.rawiel@gmail.com',
