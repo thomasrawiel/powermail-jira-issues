@@ -6,11 +6,12 @@ $EM_CONF[$_EXTKEY] = [
     'category' => 'misc',
     'author' => 'Thomas Rawiel',
     'author_email' => 'thomas.rawiel@gmail.com',
-    'state' => 'stable',
+    'state' => 'beta',
     'clearCacheOnLoad' => 0,
-    'version' => '1.0.0',
+    'version' => '1.1.0',
     'constraints' => [
         'depends' => [
+            'typo3' => '12.0.0-12.99.99',
             'powermail_jira' => '',
         ],
         'conflicts' => [],
