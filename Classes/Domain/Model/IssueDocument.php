@@ -6,6 +6,7 @@ use DH\Adf\Node\Block\Document;
 use In2code\Powermail\Domain\Model\Answer;
 use JiraCloud\ADF\AtlassianDocumentFormat;
 use TRAW\PowermailJira\Domain\Model\IssueDocumentInterface;
+use TRAW\PowermailJira\Events\PowermailSubmitEvent;
 use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
@@ -15,12 +16,16 @@ use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 class IssueDocument implements IssueDocumentInterface
 {
     /**
-     * @param ObjectStorage $answers
+     * @param PowermailSubmitEvent $event
      *
-     * @return void
+     * @return AtlassianDocumentFormat
      */
-    public function getDescriptionForIssue(ObjectStorage $answers)
+    public function getDescriptionForIssue(PowermailSubmitEvent $event)
     {
+        $uri = $event->getUri();
+        $url = $uri->getScheme() . '://' . $uri->getHost() . $uri->getPath();
+        $answers = $event->getMail()->getAnswers();
+
         $doc = new Document();
 
         foreach ($answers as $answer) {
