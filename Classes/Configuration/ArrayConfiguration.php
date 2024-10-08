@@ -2,7 +2,4 @@
 
 namespace TRAW\PowermailJiraIssues\Configuration;
 
-class ArrayConfiguration extends \JiraCloud\Configuration\ArrayConfiguration
-{
-
-}
+class ArrayConfiguration extends \JiraCloud\Configuration\ArrayConfiguration {}

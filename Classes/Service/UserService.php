@@ -2,7 +2,4 @@
 
 namespace TRAW\PowermailJiraIssues\Service;
 
-class UserService extends \JiraCloud\User\UserService
-{
-
-}
+class UserService extends \JiraCloud\User\UserService {}

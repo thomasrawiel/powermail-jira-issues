@@ -7,11 +7,9 @@ use In2code\Powermail\Domain\Model\Answer;
 use JiraCloud\ADF\AtlassianDocumentFormat;
 use TRAW\PowermailJira\Domain\Model\IssueDocumentInterface;
 use TRAW\PowermailJira\Events\PowermailSubmitEvent;
-use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 /**
  * Class IssueDocument
- * @package TRAW\PowermailJiraIssues\Domain\Model
  */
 class IssueDocument implements IssueDocumentInterface
 {
@@ -42,7 +40,6 @@ class IssueDocument implements IssueDocumentInterface
                 default:
                     $doc->paragraph()->text($answer->getValue())->end();
             }
-
         }
         $doc->paragraph()->em('- - - This issue has been automatically created - - -')->end();
         $doc->paragraph()->em('URL: ' . $url)->end();
